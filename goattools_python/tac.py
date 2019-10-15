@@ -1,11 +1,3 @@
-# Purpose
-# To mimic the GNU/cat utility for printing file contents
-
-# Lessons learned
-# * If you want to print b'' without the prefix. Just write straight to stdout
-
-# TODO: implement GNU/cat flags
-
 import sys
 
 
