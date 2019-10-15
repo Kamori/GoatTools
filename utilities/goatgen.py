@@ -2,9 +2,42 @@
 
 import os
 from pathlib import Path
-from typing import List, Tuple
+from typing import Dict, List, Tuple
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
+
+
+def tool_data(tools: List[str]) -> Dict:
+    # This isn't an ordered dict, but I wrote this with python3.7 so it s
+    # It won't be for you if your version is too old. But, it doesn't need to
+    # be
+    datatable = {}
+    results = []
+
+    for line in tools:
+        line = line.strip()
+        tools = tool_written(line)
+
+        # If we haven't written it, skip it
+        if not tools:
+            continue
+
+        # results = []
+        for status, language in tools:
+            test_status, test_count = test_written(line, language)
+
+            results.append(
+                {
+                    "test_status": test_status,
+                    "test_count": test_count,
+                    "status": status,
+                    "language": language,
+                    "name": line,
+                }
+            )
+            datatable[line] = results
+
+    return results
 
 
 def tool_written(toolname: str) -> List[Tuple]:
@@ -47,38 +80,41 @@ def test_counts(file: Path) -> int:
 
 
 if __name__ == "__main__":
+    import argparse
+    import json
+
+    parser = argparse.ArgumentParser(description="Process some integers.")
+
+    parser.add_argument(
+        "--format",
+        dest="output_format",
+        choices=["markdown-table", "json"],
+        default="json",
+        help="How to import tool/test datas",
+        required=True,
+    )
+
+    args = parser.parse_args()
+
     with open(f"{dir_path}/../tools.txt", "r") as f:
         f_contents = f.readlines()
 
-    # This isn't an ordered dict, but I wrote this with python3.7 so it s
-    # It won't be for you if your version is too old. But, it doesn't need to
-    # be
-    datatable = {}
+    tool_list = tool_data(f_contents)
 
-    for line in f_contents:
-        line = line.rstrip()
-        tools = tool_written(line)
+    if args.output_format == "json":
+        print(json.dumps(tool_list))
 
-        # If we haven't written it, skip it
-        if not tools:
-            continue
+    elif args.output_format == "markdown-table":
 
-        results = []
-        for status, language in tools:
-            test_status, test_count = test_written(line, language)
+        # Print header
+        print("|" + " | ".join(tool_list[0].keys()) + "|")
+        print("|" + " | ".join(["-" * len(i) for i in tool_list[0].keys()]) + "|")
 
-            results.append(
-                {
-                    "status": status,
-                    "language": language,
-                    "test_status": test_status,
-                    "test_count": test_count,
-                }
-            )
-            datatable[line] = results
+        for tool in tool_list:
+            lineout = "|" + " | ".join([str(value) for _, value in tool.items()]) + "|"
+            lineout = lineout.replace("True", ":white_check_mark:")
+            lineout = lineout.replace("False", ":x:")
+            print(lineout)
 
-    from pprint import pprint
-
-    pprint(datatable)
-
-    ## TODO: turn this into a markdown table
+    else:
+        print("To be developed")

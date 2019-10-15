@@ -12,11 +12,11 @@ This is a learning excercise. This is an attempt to recreate many common CLI too
 
 # Completion Report
 
-| Test Status | Test Count | Tool Started | language | Tool Name |
-| ----------- | ---------- | ------------ | -------- | --------- |
-| ❌           | 0          | ❌            | Py       | cat       |
-| ❌           | 0          | ❌            | Py       | tac       |
-| ❌           | 0          | ❌            | Py       | rev       |
+| test_status | test_count | status | language | name |
+| ----------- | ---------- | ------ | -------- | ---- |
+| True        | 3          | True   | python   | cat  |
+| False       | 0          | True   | golang   | cat  |
+| True        | 3          | True   | python   | tac  |
 
 
 :white_check_mark:  ✅
