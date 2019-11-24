@@ -6,9 +6,11 @@ from typing import Dict, List, Tuple
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
+raise SystemExit("This tool is broken since the restructure of folders")
+
 
 def tool_data(tools: List[str]) -> Dict:
-    # This isn't an ordered dict, but I wrote this with python3.7 so it s
+    # This isn't an ordered dict, but I wrote this with python3.7 so it is
     # It won't be for you if your version is too old. But, it doesn't need to
     # be
     datatable = {}
@@ -50,7 +52,9 @@ def tool_written(toolname: str) -> List[Tuple]:
 
 def test_written(toolname: str, language: str) -> Tuple[bool, int]:
     count = 0
-    files = Path(f"{dir_path}/../tests").glob(f"{language}_tests/{toolname}_test.*")
+    files = Path(f"{dir_path}/../tests").glob(
+        f"{language}_tests/{toolname}_test.*"
+    )
     files = list(files)
     if files:
         test = files[0]
@@ -108,10 +112,16 @@ if __name__ == "__main__":
 
         # Print header
         print("|" + " | ".join(tool_list[0].keys()) + "|")
-        print("|" + " | ".join(["-" * len(i) for i in tool_list[0].keys()]) + "|")
+        print(
+            "|" + " | ".join(["-" * len(i) for i in tool_list[0].keys()]) + "|"
+        )
 
         for tool in tool_list:
-            lineout = "|" + " | ".join([str(value) for _, value in tool.items()]) + "|"
+            lineout = (
+                "|"
+                + " | ".join([str(value) for _, value in tool.items()])
+                + "|"
+            )
             lineout = lineout.replace("True", ":white_check_mark:")
             lineout = lineout.replace("False", ":x:")
             print(lineout)

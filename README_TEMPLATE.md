@@ -10,6 +10,3 @@ This is a learning excercise. This is an attempt to recreate many common CLI too
    * `python utilities/goatgen.py --format markdown-table`  <-- Broken
 
 
-# Completion Report
-
-This tool is broken since the restructure of folders
