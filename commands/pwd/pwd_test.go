@@ -30,6 +30,7 @@ func TestSysmlinkPWD(t *testing.T) {
 		physicaldir := "/tmp/goattest_physicaldir"
 		symlinkdir := "/tmp/goattest_symlinkdir"
 		os.Mkdir(physicaldir, 0770)
+
 		os.Symlink(physicaldir, symlinkdir)
 
 		os.Chdir(symlinkdir)
@@ -46,6 +47,9 @@ func TestSysmlinkPWD(t *testing.T) {
 		if got2 != want2 {
 			t.Fatalf("got %q want physical dir  %q", got2, want2)
 		}
+
+		os.Remove(symlinkdir)
+		os.Remove(physicaldir)
 
 	})
 }
